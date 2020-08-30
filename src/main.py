@@ -9,7 +9,7 @@ from filters import register_filters
 from handlers import register_handlers
 
 
-bot = Bot(TOKEN)
+bot = Bot(TOKEN, parse_mode='html')
 dp = Dispatcher(bot, storage=MemoryStorage())
 
 
