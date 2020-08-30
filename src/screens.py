@@ -1,16 +1,23 @@
+"""A screen is a message with or without an inline keyboard."""
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 class Screen:
+    """Base screen class with type hintings and universal method."""
     text: str = None
     reply_markup: InlineKeyboardMarkup = None
 
     def as_dict(self) -> dict:
+        """
+        Convert a screen to a dictionary for deployment when sending
+        or editing a message.
+        """
         return {'text': self.text,
                 'reply_markup': self.reply_markup}
 
 
 class Start(Screen):
+    """Start menu."""
     def __init__(self, name: str):
         self.text = ('Привет, {}.\nЯ бот-помощник Фракции Защиты Интернета.\n'
                      'Чем могу быть полезен?').format(name)
@@ -32,6 +39,10 @@ class Start(Screen):
 
 
 class ContactSet(Screen):
+    """
+    The first message when trying to contact is with an explanation
+    of what to do.
+    """
     def __init__(self, recipient: str):
         self.text = 'Отправь сообщение и я перешлю его {}.'.format(recipient)
         self._create_reply_markup()
@@ -43,11 +54,15 @@ class ContactSet(Screen):
 
 
 class MessageForwarded(Screen):
+    """
+    A message that a message has been forwarded to a contact chat.
+    """
     def __init__(self, recipient:str):
         self.text = 'Ваше сообщение отправлено {}.'.format(recipient)
 
 
 class MessageFrom(Screen):
+    """A message from a contact chat for a user."""
     def __init__(self, sender: str, text: str):
         self.text = ('#{}\n\n{}\n\n'
                 '<i>Вы можете снова отправить сообщение, ответив на это.</i>')\
