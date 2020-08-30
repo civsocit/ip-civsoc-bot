@@ -35,7 +35,7 @@ class Start(Screen):
                 InlineKeyboardButton('Связаться с директоратом',
                                      callback_data='directors'),
                 InlineKeyboardButton('Связаться с редакцией',
-                                     callback_data='unavailable'))
+                                     callback_data='redaction'))
 
 
 class ContactSet(Screen):
