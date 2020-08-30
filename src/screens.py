@@ -31,9 +31,9 @@ class Start(Screen):
                                      callback_data='unavailable'))
 
 
-class ContactDirectors(Screen):
-    def __init__(self):
-        self.text = 'Отправь сообщение и я перешлю его директорам.'
+class ContactSet(Screen):
+    def __init__(self, recipient: str):
+        self.text = 'Отправь сообщение и я перешлю его {}.'.format(recipient)
         self._create_reply_markup()
 
     def _create_reply_markup(self):
