@@ -7,6 +7,7 @@ from aiogram.dispatcher.filters.builtin import HashTag
 
 
 def register_filters(dp: Dispatcher):
+
     dp.filters_factory.bind(ChatTypeFilter,
             event_handlers=[dp.callback_query_handlers, dp.message_handlers])
     dp.filters_factory.bind(TextUnequalFilter,
@@ -16,6 +17,7 @@ def register_filters(dp: Dispatcher):
 
 
 class ChatTypeFilter(BoundFilter):
+    """Check chat type."""
     key = 'chat_type'
 
     def __init__(self, chat_type: typing.Union[typing.Iterable, str]):
@@ -29,6 +31,7 @@ class ChatTypeFilter(BoundFilter):
 
 
 class TextUnequalFilter(BoundFilter):
+    """Check text unequal."""
     key = 'text_unequal'
 
     def __init__(self, text_unequal: typing.Union[typing.Iterable, str]):
@@ -42,7 +45,8 @@ class TextUnequalFilter(BoundFilter):
 
 class IsReplyToForwardFilter(BoundFilter):
     """
-    Check if message is replied and send reply message to handler
+    Check if message is replied to forward and send reply message to
+    handler.
     """
     key = 'is_reply_to_forward'
 
@@ -58,6 +62,9 @@ class IsReplyToForwardFilter(BoundFilter):
 
 
 class ReplyHashTag(HashTag):
+    """
+    Checking for the presence of a hashtag in a reply to a message.
+    """
     async def check(self, message: types.Message):
         if message.reply_to_message.caption:
             text = message.reply_to_message.caption
