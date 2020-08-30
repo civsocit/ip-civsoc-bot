@@ -31,7 +31,7 @@ class Start(Screen):
                                      callback_data='unavailable'))
         self.reply_markup.add(
                 InlineKeyboardButton('О фракции', callback_data='about_fraction'),
-                InlineKeyboardButton('О движении', callback_data='unavailable'),
+                InlineKeyboardButton('О движении', callback_data='about_civsoc'),
                 InlineKeyboardButton('Связаться с директоратом',
                                      callback_data='directors'),
                 InlineKeyboardButton('Связаться с редакцией',
@@ -73,6 +73,26 @@ class MessageFrom(Screen):
         self.reply_markup = InlineKeyboardMarkup()
         self.reply_markup.add(InlineKeyboardButton('<< В главное меню',
                                                    callback_data='start_new'))
+
+
+class AboutCivsoc(Screen):
+    """Section about civsoc."""
+    def __init__(self):
+        self.text = ('Мы — граждане Российской Федерации, с целью '
+                     'восстановления народного суверенитета и предотвращения '
+                     'узурпации власти, объявляем о формировании '
+                     'всероссийского движения "Гражданское Общество".')
+        self._create_reply_markup()
+        
+    def _create_reply_markup(self):
+        self.reply_markup = InlineKeyboardMarkup()
+        self.reply_markup.add(
+            InlineKeyboardButton('Манифест',
+                                 url='https://civsoc.net/our-manifest/'),
+            InlineKeyboardButton('Устав',
+                                 url='https://civsoc.net/ustav-dvizheniya/'))
+        self.reply_markup.add(InlineKeyboardButton('<< Назад',
+                                                   callback_data='start'))
 
 
 class AboutFraction(Screen):
