@@ -13,7 +13,7 @@ bot = Bot(TOKEN, parse_mode='html')
 dp = Dispatcher(bot, storage=MemoryStorage())
 
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=LOGGING_LEVEL.upper())
 
 
 async def on_startup(dp: Dispatcher):
