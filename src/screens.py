@@ -30,7 +30,7 @@ class Start(Screen):
                 InlineKeyboardButton('Вступить во фракцию',
                                      callback_data='unavailable'))
         self.reply_markup.add(
-                InlineKeyboardButton('О фракции', callback_data='unavailable'),
+                InlineKeyboardButton('О фракции', callback_data='about_fraction'),
                 InlineKeyboardButton('О движении', callback_data='unavailable'),
                 InlineKeyboardButton('Связаться с директоратом',
                                      callback_data='directors'),
@@ -73,3 +73,20 @@ class MessageFrom(Screen):
         self.reply_markup = InlineKeyboardMarkup()
         self.reply_markup.add(InlineKeyboardButton('<< В главное меню',
                                                    callback_data='start_new'))
+
+
+class AboutFraction(Screen):
+    """Section about fraction."""
+    def __init__(self):
+        self.text = ('Мы считаем свободу распространения и получения '
+                     'информации главной ценностью сети Интернет.')
+        self._create_reply_markup()
+    
+    def _create_reply_markup(self):
+        self.reply_markup = InlineKeyboardMarkup()
+        self.reply_markup.add(
+            InlineKeyboardButton('Манифест и устав',
+                                 url=('https://civsoc.net/frakciya'
+                                 '/frakciya-zashchity-interneta/')))
+        self.reply_markup.row(InlineKeyboardButton('<< Назад',
+                                                   callback_data='start'))

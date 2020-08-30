@@ -6,6 +6,7 @@ from config import DIRECTORS_CHAT, REDACTION_CHAT
 from filters import ReplyHashTag
 from states import Contact
 
+from .about_fraction import about_fraction
 from .directors_contact_directors_side import directors_reply
 from .directors_contact_user_side import directors_state, set_directors_state
 from .redaction_contact_redaction_side import redaction_reply
@@ -28,6 +29,9 @@ def register_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(start_cq, text='start', state='*')
     dp.register_callback_query_handler(start_new_cq, text='start_new', state='*')
 
+    # When user click on button 'О фракции'
+    dp.register_callback_query_handler(about_fraction, text='about_fraction')
+    
     # When user click on button 'Связаться с директоратом'
     dp.register_callback_query_handler(set_directors_state, text='directors')
 
