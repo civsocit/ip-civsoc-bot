@@ -4,7 +4,7 @@ import logging
 from aiogram import Bot, Dispatcher, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-from config import TOKEN
+from config import LOGGING_LEVEL, TOKEN
 from filters import register_filters
 from handlers import register_handlers
 

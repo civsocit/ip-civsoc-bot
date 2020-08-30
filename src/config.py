@@ -3,4 +3,7 @@ import os
 
 
 TOKEN = os.environ.get('TOKEN')
-DIRECTORS_CHAT: int = 275237614  # ID чата директората
+
+
+LOGGING_LEVEL = 'debug'  # Уровень логгирования
+DIRECTORS_CHAT: int = None  # ID чата директората
