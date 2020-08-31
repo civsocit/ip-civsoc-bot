@@ -11,6 +11,7 @@ from .about_fraction import about_fraction
 from .directors_contact_directors_side import directors_reply
 from .directors_contact_user_side import directors_state, set_directors_state
 from .get_chat_id import get_chat_id_cmd
+from .join_users_side import set_join_state
 from .redaction_contact_redaction_side import redaction_reply
 from .redaction_contact_user_side import redaction_state, set_redaction_state
 from .start import start_cmd, start_cq, start_new_cq
@@ -31,6 +32,9 @@ def register_handlers(dp: Dispatcher):
     dp.register_callback_query_handler(start_cq, text='start', state='*')
     dp.register_callback_query_handler(start_new_cq, text='start_new', state='*')
 
+    # When user click on button 'Вступить во фракцию'
+    dp.register_callback_query_handler(set_join_state, text='join')
+    
     # When user click on button 'О фракции'
     dp.register_callback_query_handler(about_fraction, text='about_fraction')
 
