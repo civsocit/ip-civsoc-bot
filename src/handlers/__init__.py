@@ -10,6 +10,7 @@ from .about_civsoc import about_civsoc
 from .about_fraction import about_fraction
 from .directors_contact_directors_side import directors_reply
 from .directors_contact_user_side import directors_state, set_directors_state
+from .get_chat_id import get_chat_id_cmd
 from .redaction_contact_redaction_side import redaction_reply
 from .redaction_contact_user_side import redaction_state, set_redaction_state
 from .start import start_cmd, start_cq, start_new_cq
@@ -48,6 +49,9 @@ def register_handlers(dp: Dispatcher):
     # Start handler by command
     dp.register_message_handler(start_cmd, chat_type='private', commands='start',
                                 state='*')
+    
+    # Get chat id by command
+    dp.register_message_handler(get_chat_id_cmd, commands='get_chat_id', state='*')
     
     # When user send message for directors
     dp.register_message_handler(directors_state, state=Contact.directors)
