@@ -12,8 +12,6 @@ def register_filters(dp: Dispatcher):
             event_handlers=[dp.callback_query_handlers, dp.message_handlers])
     dp.filters_factory.bind(TextUnequalFilter,
                             event_handlers=[dp.message_handlers])
-    dp.filters_factory.bind(IsReplyToForwardFilter,
-                            event_handlers=[dp.message_handlers])
 
 
 class ChatTypeFilter(BoundFilter):
@@ -41,24 +39,6 @@ class TextUnequalFilter(BoundFilter):
 
     async def check(self, message: types.Message) -> bool:
         return message.text not in self.text_unequal
-
-
-class IsReplyToForwardFilter(BoundFilter):
-    """
-    Check if message is replied to forward and send reply message to
-    handler.
-    """
-    key = 'is_reply_to_forward'
-
-    def __init__(self, is_reply_to_forward: bool):
-        self.is_reply_to_forward = is_reply_to_forward
-
-    async def check(self, message: types.Message):
-        if message.reply_to_message.forward_from and self.is_reply_to_forward:
-            return True
-        elif not message.reply_to_message.forward_from and\
-                not self.is_reply_to_forward:
-            return True
 
 
 class ReplyHashTag(HashTag):

@@ -1,6 +1,5 @@
 from aiogram import Dispatcher
 from aiogram.dispatcher.filters.builtin import IDFilter
-from aiogram.types import CallbackQuery
 
 from config import DIRECTORS_CHAT, REDACTION_CHAT
 from filters import ReplyHashTag
@@ -46,9 +45,6 @@ def register_handlers(dp: Dispatcher):
 
     # When user click on button 'Связаться с редакцией'
     dp.register_callback_query_handler(set_redaction_state, text='redaction')
-
-    # Временная заглушка для неработающих функций
-    dp.register_callback_query_handler(unavailable, text='unavailable')
     
     # Start handler by command
     dp.register_message_handler(start_cmd, chat_type='private', commands='start',
@@ -73,15 +69,10 @@ def register_handlers(dp: Dispatcher):
     dp.register_message_handler(directors_reply,
                                 IDFilter(chat_id=DIRECTORS_CHAT),
                                 text_unequal='.',
-                                is_reply_to_forward=True)
+                                is_reply=True)
     
     # When redactor replied to message from user
     dp.register_message_handler(redaction_reply,
                                 IDFilter(chat_id=REDACTION_CHAT),
                                 text_unequal='.',
-                                is_reply_to_forward=True)
-
-
-async def unavailable(cq: CallbackQuery):
-    """Временная заглушка для неработающих функций."""
-    await cq.answer('Эта функция пока не доступна.')
+                                is_reply=True)
