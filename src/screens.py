@@ -1,5 +1,5 @@
 """A screen is a message with or without an inline keyboard."""
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, User
 
 
 class Screen:
@@ -50,13 +50,12 @@ class Join(Screen):
                 'Для вступления во фракцию напишите мне:\n\n'
                 '1) Свои ФИО\n'
                 '2) Дату рождения\n'
-                '3) Свой telegram тэг (@username)\n'
-                '4) Подтверждение согласия с <a href="https://telegra.ph/Ustav-'
+                '3) Подтверждение согласия с <a href="https://telegra.ph/Ustav-'
                 'frakcii-zashchity-interneta-dvizheniya-Grazhdanskoe-'
                 'obshchestvo-03-30">уставом фракции</a>\n'
-                '5) Являетесь ли Вы членом движения "Гражданское Общество" на '
+                '4) Являетесь ли Вы членом движения "Гражданское Общество" на '
                 'данный момент\n'
-                '6) Расскажите о себе в 3-5 предложениях\n\n'
+                '5) Расскажите о себе в 3-5 предложениях\n\n'
                 'Вступая к нам, вы также вступаете в движение. Если вы не '
                 'являетесь членом движения "Гражданское Общество", нам также '
                 'понадобятся:\n'
@@ -72,8 +71,10 @@ class Join(Screen):
         
     def _create_reply_markup(self):
         self.reply_markup = InlineKeyboardMarkup()
-        self.reply_markup.add(InlineKeyboardButton('<< Назад',
-                                                   callback_data='start'))
+        self.reply_markup.add(
+            InlineKeyboardButton('Политика конфиденциальности',
+                url='https://civsoc.net/politika-konfidencialnosti/'),
+            InlineKeyboardButton('<< Назад', callback_data='start'))
 
 
 class ContactSet(Screen):
@@ -99,7 +100,19 @@ class MessageForwarded(Screen):
         self.text = 'Ваше сообщение отправлено {}.'.format(recipient)
 
 
-class MessageFrom(Screen):
+class MessageFromUser(Screen):
+    """A message from a user for a contact chat."""
+    def __init__(self, user: User, text: str):
+        if user.username:
+            name = '@' + user.username
+        else:
+            name = user.first_name
+        self.text = 'От <a href="tg://user?id={}">{}</a>\n\n{}'.format(user.id,
+                                                                       name,
+                                                                       text)
+
+
+class MessageFromChat(Screen):
     """A message from a contact chat for a user."""
     def __init__(self, sender: str, text: str):
         self.text = ('#{}\n\n{}\n\n'
