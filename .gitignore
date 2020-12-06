@@ -1,2 +1,5 @@
+.*
+!.gitingore
+!.github
 __pycache__
 venv
