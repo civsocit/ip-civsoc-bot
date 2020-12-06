@@ -1,7 +1,7 @@
 from setuptools import setup
 
 
-setup(name='ip-civsoc-bit',
+setup(name='ip-civsoc-bot',
       version='0.2.0',
       packages=['ip_bot'],
       entry_points={
