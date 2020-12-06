@@ -1,19 +1,22 @@
-"""Временный стартовый модуль."""
 import logging
 
 from aiogram import Bot, Dispatcher, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-from config import LOGGING_LEVEL, TOKEN
+from config import Config
 from filters import register_filters
 from handlers import register_handlers
 
 
-bot = Bot(TOKEN, parse_mode='html')
+config = Config(token='1362486327:AAFScz81PpmiAPQVyeGW9lvNiH_-yQm_zyQ',
+                directors_chat=-1001434952912, redaction_chat=-1001434952912,
+                log_level='debug')
+bot = Bot(config.TOKEN, parse_mode='html')
+bot.config = config
 dp = Dispatcher(bot, storage=MemoryStorage())
 
 
-logging.basicConfig(level=LOGGING_LEVEL.upper())
+logging.basicConfig(level=config.LOG_LEVEL)
 
 
 async def on_startup(dp: Dispatcher):

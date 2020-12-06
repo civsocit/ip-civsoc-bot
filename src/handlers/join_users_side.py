@@ -1,7 +1,6 @@
 """User-side actions related to join to fraction."""
 from aiogram.types import CallbackQuery
 
-from config import DIRECTORS_CHAT
 from screens import Join
 from states import Contact
 

@@ -1,7 +1,6 @@
 from aiogram import Dispatcher
 from aiogram.dispatcher.filters.builtin import IDFilter
 
-from config import DIRECTORS_CHAT, REDACTION_CHAT
 from filters import ReplyHashTag
 from states import Contact
 
@@ -67,12 +66,12 @@ def register_handlers(dp: Dispatcher):
 
     # When director replied to message from user
     dp.register_message_handler(directors_reply,
-                                IDFilter(chat_id=DIRECTORS_CHAT),
+                                IDFilter(chat_id=dp.bot.config.DIRECTORS_CHAT),
                                 text_unequal='.',
                                 is_reply=True)
     
     # When redactor replied to message from user
     dp.register_message_handler(redaction_reply,
-                                IDFilter(chat_id=REDACTION_CHAT),
+                                IDFilter(chat_id=dp.bot.config.REDACTION_CHAT),
                                 text_unequal='.',
                                 is_reply=True)

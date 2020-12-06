@@ -2,7 +2,6 @@
 from aiogram.dispatcher.storage import FSMContext
 from aiogram.types import CallbackQuery, Message
 
-from config import DIRECTORS_CHAT
 from screens import ContactSet, MessageForwarded, MessageFromUser, Start
 from states import Contact
 
@@ -19,7 +18,7 @@ async def set_directors_state(cq: CallbackQuery):
 async def directors_state(message: Message, state: FSMContext):
     """When user send message for directors."""
     await state.finish()
-    await message.bot.send_message(chat_id=DIRECTORS_CHAT,
+    await message.bot.send_message(chat_id=message.bot.config.DIRECTORS_CHAT,
             **MessageFromUser(message.from_user, message.text).as_dict())
     await message.answer(**MessageForwarded('директорату').as_dict())
     await message.answer(**Start(message.from_user.first_name).as_dict())
