@@ -8,9 +8,7 @@ from ip_bot.filters import register_filters
 from ip_bot.handlers import register_handlers
 
 
-config = Config(token='1362486327:AAFScz81PpmiAPQVyeGW9lvNiH_-yQm_zyQ',
-                directors_chat=-1001434952912, redaction_chat=-1001434952912,
-                log_level='debug')
+config = Config.from_env()
 bot = Bot(config.TOKEN, parse_mode='html')
 bot.config = config
 dp = Dispatcher(bot, storage=MemoryStorage())
@@ -24,5 +22,9 @@ async def on_startup(dp: Dispatcher):
     register_handlers(dp)
 
 
-if __name__ == '__main__':
+def main():
     executor.start_polling(dp, on_startup=on_startup)
+
+
+if __name__ == '__main__':
+    main()
