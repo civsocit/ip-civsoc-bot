@@ -1,8 +1,8 @@
 """Redaction-side actions related to contact with redaction."""
 from aiogram.types import Message
 
-from screens import MessageFromChat
-from services import get_ids_from_text_mentions
+from ip_bot.screens import MessageFromChat
+from ip_bot.services import get_ids_from_text_mentions
 
 
 async def redaction_reply(message: Message):
@@ -12,5 +12,7 @@ async def redaction_reply(message: Message):
     if len(ids) < 1:
         return
 
-    await message.bot.send_message(chat_id=ids[0],
-        **MessageFromChat('Редакция', message.parse_entities()).as_dict())
+    await message.bot.send_message(
+        chat_id=ids[0],
+        **MessageFromChat('Редакция', message.parse_entities()).as_dict()
+    )

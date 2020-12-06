@@ -1,6 +1,6 @@
 from aiogram.types import CallbackQuery
 
-from screens import AboutFraction
+from ip_bot.screens import AboutFraction
 
 
 async def about_fraction(cq: CallbackQuery):

@@ -32,12 +32,13 @@ class Start(Screen):
                 InlineKeyboardButton('Вступить во фракцию',
                                      callback_data='join'))
         self.reply_markup.add(
-                InlineKeyboardButton('О фракции', callback_data='about_fraction'),
-                InlineKeyboardButton('О движении', callback_data='about_civsoc'),
-                InlineKeyboardButton('Связаться с директоратом',
-                                     callback_data='directors'),
-                InlineKeyboardButton('Связаться с редакцией',
-                                     callback_data='redaction'))
+            InlineKeyboardButton('О фракции', callback_data='about_fraction'),
+            InlineKeyboardButton('О движении', callback_data='about_civsoc'),
+            InlineKeyboardButton('Связаться с директоратом',
+                                 callback_data='directors'),
+            InlineKeyboardButton('Связаться с редакцией',
+                                 callback_data='redaction')
+        )
 
 
 class Join(Screen):
@@ -50,8 +51,8 @@ class Join(Screen):
                 'Для вступления во фракцию напишите мне:\n\n'
                 '1) Свои ФИО\n'
                 '2) Дату рождения\n'
-                '3) Подтверждение согласия с <a href="https://telegra.ph/Ustav-'
-                'frakcii-zashchity-interneta-dvizheniya-Grazhdanskoe-'
+                '3) Подтверждение согласия с <a href="https://telegra.ph/Ustav'
+                '-frakcii-zashchity-interneta-dvizheniya-Grazhdanskoe-'
                 'obshchestvo-03-30">уставом фракции</a>\n'
                 '4) Являетесь ли Вы членом движения "Гражданское Общество" на '
                 'данный момент\n'
@@ -68,12 +69,14 @@ class Join(Screen):
                 'персональных данных.</i>')
         self.disable_web_page_preview = True
         self._create_reply_markup()
-        
+
     def _create_reply_markup(self):
         self.reply_markup = InlineKeyboardMarkup()
         self.reply_markup.add(
-            InlineKeyboardButton('Политика конфиденциальности',
-                url='https://civsoc.net/politika-konfidencialnosti/'),
+            InlineKeyboardButton(
+                'Политика конфиденциальности',
+                url='https://civsoc.net/politika-konfidencialnosti/'
+            ),
             InlineKeyboardButton('<< Назад', callback_data='start'))
 
 
@@ -93,10 +96,7 @@ class ContactSet(Screen):
 
 
 class MessageForwarded(Screen):
-    """
-    A message that a message has been forwarded to a contact chat.
-    """
-    def __init__(self, recipient:str):
+    def __init__(self, recipient: str):
         self.text = 'Ваше сообщение отправлено {}.'.format(recipient)
 
 
@@ -113,13 +113,13 @@ class MessageFromUser(Screen):
 
 
 class MessageFromChat(Screen):
-    """A message from a contact chat for a user."""
     def __init__(self, sender: str, text: str):
-        self.text = ('#{}\n\n{}\n\n'
-                '<i>Вы можете снова отправить сообщение, ответив на это.</i>')\
+        self.text = (
+            '#{}\n\n{}\n\n'
+            '<i>Вы можете снова отправить сообщение, ответив на это.</i>')\
                 .format(sender, text)
         self._create_reply_markup()
-    
+
     def _create_reply_markup(self):
         self.reply_markup = InlineKeyboardMarkup()
         self.reply_markup.add(InlineKeyboardButton('<< В главное меню',
@@ -134,7 +134,7 @@ class AboutCivsoc(Screen):
                      'узурпации власти, объявляем о формировании '
                      'всероссийского движения "Гражданское Общество".')
         self._create_reply_markup()
-        
+
     def _create_reply_markup(self):
         self.reply_markup = InlineKeyboardMarkup()
         self.reply_markup.add(
@@ -152,12 +152,16 @@ class AboutFraction(Screen):
         self.text = ('Мы считаем свободу распространения и получения '
                      'информации главной ценностью сети Интернет.')
         self._create_reply_markup()
-    
+
     def _create_reply_markup(self):
         self.reply_markup = InlineKeyboardMarkup()
         self.reply_markup.add(
-            InlineKeyboardButton('Манифест и устав',
-                                 url=('https://civsoc.net/frakciya'
-                                 '/frakciya-zashchity-interneta/')))
-        self.reply_markup.row(InlineKeyboardButton('<< Назад',
-                                                   callback_data='start'))
+            InlineKeyboardButton(
+                'Манифест и устав',
+                url=('https://civsoc.net/frakciya/'
+                     'frakciya-zashchity-interneta/')
+            )
+        )
+        self.reply_markup.row(
+            InlineKeyboardButton('<< Назад', callback_data='start')
+        )

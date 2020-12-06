@@ -3,9 +3,9 @@ import logging
 from aiogram import Bot, Dispatcher, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-from config import Config
-from filters import register_filters
-from handlers import register_handlers
+from ip_bot.config import Config
+from ip_bot.filters import register_filters
+from ip_bot.handlers import register_handlers
 
 
 config = Config(token='1362486327:AAFScz81PpmiAPQVyeGW9lvNiH_-yQm_zyQ',

@@ -2,7 +2,7 @@
 from aiogram.dispatcher.storage import FSMContext
 from aiogram.types import CallbackQuery, Message
 
-from screens import Start
+from ip_bot.screens import Start
 
 
 async def start_cmd(message: Message, state: FSMContext):

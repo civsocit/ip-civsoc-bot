@@ -1,6 +1,6 @@
 from aiogram.types import CallbackQuery
 
-from screens import AboutCivsoc
+from ip_bot.screens import AboutCivsoc
 
 
 async def about_civsoc(cq: CallbackQuery):

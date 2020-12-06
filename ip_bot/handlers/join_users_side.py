@@ -1,8 +1,8 @@
 """User-side actions related to join to fraction."""
 from aiogram.types import CallbackQuery
 
-from screens import Join
-from states import Contact
+from ip_bot.screens import Join
+from ip_bot.states import Contact
 
 
 async def set_join_state(cq: CallbackQuery):
