@@ -1,4 +1,5 @@
 import os
+
 import pytest
 
 from ip_bot.config import Config
@@ -8,7 +9,7 @@ class TestLogLevelValidation:
     def test_invalid(self):
         with pytest.raises(ValueError):
             Config('qwerty', 123, 123, log_level='qwerty')
-    
+
     @pytest.mark.parametrize('input_level,output_level', [
         ('debug', 'DEBUG'),
         ('INFO', 'INFO')
