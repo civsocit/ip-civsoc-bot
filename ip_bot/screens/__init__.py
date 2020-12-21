@@ -1,24 +1,9 @@
-"""A screen is a message with or without an inline keyboard."""
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, User
+from aiogram import types
+
+from ip_bot.screens.base import BaseTextScreen
 
 
-class Screen:
-    """Base screen class with type hintings and universal method."""
-    text: str = None
-    disable_web_page_preview: bool = False
-    reply_markup: InlineKeyboardMarkup = None
-
-    def as_dict(self) -> dict:
-        """
-        Convert a screen to a dictionary for deployment when sending
-        or editing a message.
-        """
-        return {'text': self.text,
-                'disable_web_page_preview': self.disable_web_page_preview,
-                'reply_markup': self.reply_markup}
-
-
-class Start(Screen):
+class Start(BaseTextScreen):
     """Start menu."""
     def __init__(self, name: str):
         self.text = ('Привет, {}.\nЯ бот-помощник Фракции Защиты Интернета.\n'
@@ -26,22 +11,24 @@ class Start(Screen):
         self._create_reply_markup()
 
     def _create_reply_markup(self):
-        self.reply_markup = InlineKeyboardMarkup(2)
+        self.reply_markup = types.InlineKeyboardMarkup(2)
 
         self.reply_markup.row(
-                InlineKeyboardButton('Вступить во фракцию',
-                                     callback_data='join'))
+                types.InlineKeyboardButton('Вступить во фракцию',
+                                           callback_data='join'))
         self.reply_markup.add(
-            InlineKeyboardButton('О фракции', callback_data='about_fraction'),
-            InlineKeyboardButton('О движении', callback_data='about_civsoc'),
-            InlineKeyboardButton('Связаться с директоратом',
-                                 callback_data='directors'),
-            InlineKeyboardButton('Связаться с редакцией',
-                                 callback_data='redaction')
+            types.InlineKeyboardButton('О фракции',
+                                       callback_data='about_fraction'),
+            types.InlineKeyboardButton('О движении',
+                                       callback_data='about_civsoc'),
+            types.InlineKeyboardButton('Связаться с директоратом',
+                                       callback_data='directors'),
+            types.InlineKeyboardButton('Связаться с редакцией',
+                                       callback_data='redaction')
         )
 
 
-class Join(Screen):
+class Join(BaseTextScreen):
     """
     The first message when trying to join with an explanation of what
     to do.
@@ -71,16 +58,16 @@ class Join(Screen):
         self._create_reply_markup()
 
     def _create_reply_markup(self):
-        self.reply_markup = InlineKeyboardMarkup()
+        self.reply_markup = types.InlineKeyboardMarkup()
         self.reply_markup.add(
-            InlineKeyboardButton(
+            types.InlineKeyboardButton(
                 'Политика конфиденциальности',
                 url='https://civsoc.net/politika-konfidencialnosti/'
             ),
-            InlineKeyboardButton('<< Назад', callback_data='start'))
+            types.InlineKeyboardButton('<< Назад', callback_data='start'))
 
 
-class ContactSet(Screen):
+class ContactSet(BaseTextScreen):
     """
     The first message when trying to contact is with an explanation
     of what to do.
@@ -90,19 +77,20 @@ class ContactSet(Screen):
         self._create_reply_markup()
 
     def _create_reply_markup(self):
-        self.reply_markup = InlineKeyboardMarkup()
-        self.reply_markup.add(InlineKeyboardButton('<< Назад',
-                                                   callback_data='start'))
+        self.reply_markup = types.InlineKeyboardMarkup()
+        self.reply_markup.add(
+            types.InlineKeyboardButton('<< Назад', callback_data='start')
+        )
 
 
-class MessageForwarded(Screen):
+class MessageForwarded(BaseTextScreen):
     def __init__(self, recipient: str):
         self.text = 'Ваше сообщение отправлено {}.'.format(recipient)
 
 
-class MessageFromUser(Screen):
+class MessageFromUser(BaseTextScreen):
     """A message from a user for a contact chat."""
-    def __init__(self, user: User, text: str):
+    def __init__(self, user: types.User, text: str):
         if user.username:
             name = '@' + user.username
         else:
@@ -112,7 +100,7 @@ class MessageFromUser(Screen):
                                                                        text)
 
 
-class MessageFromChat(Screen):
+class MessageFromChat(BaseTextScreen):
     def __init__(self, sender: str, text: str):
         self.text = (
             '#{}\n\n{}\n\n'
@@ -121,12 +109,14 @@ class MessageFromChat(Screen):
         self._create_reply_markup()
 
     def _create_reply_markup(self):
-        self.reply_markup = InlineKeyboardMarkup()
-        self.reply_markup.add(InlineKeyboardButton('<< В главное меню',
-                                                   callback_data='start_new'))
+        self.reply_markup = types.InlineKeyboardMarkup()
+        self.reply_markup.add(
+            types.InlineKeyboardButton('<< В главное меню',
+                                       callback_data='start_new')
+        )
 
 
-class AboutCivsoc(Screen):
+class AboutCivsoc(BaseTextScreen):
     """Section about civsoc."""
     def __init__(self):
         self.text = ('Мы — граждане Российской Федерации, с целью '
@@ -136,17 +126,20 @@ class AboutCivsoc(Screen):
         self._create_reply_markup()
 
     def _create_reply_markup(self):
-        self.reply_markup = InlineKeyboardMarkup()
+        self.reply_markup = types.InlineKeyboardMarkup()
         self.reply_markup.add(
-            InlineKeyboardButton('Манифест',
-                                 url='https://civsoc.net/our-manifest/'),
-            InlineKeyboardButton('Устав',
-                                 url='https://civsoc.net/ustav-dvizheniya/'))
-        self.reply_markup.add(InlineKeyboardButton('<< Назад',
-                                                   callback_data='start'))
+            types.InlineKeyboardButton('Манифест',
+                                       url='https://civsoc.net/our-manifest/'),
+            types.InlineKeyboardButton(
+                'Устав', url='https://civsoc.net/ustav-dvizheniya/'
+            )
+        )
+        self.reply_markup.add(
+            types.InlineKeyboardButton('<< Назад', callback_data='start')
+        )
 
 
-class AboutFraction(Screen):
+class AboutFraction(BaseTextScreen):
     """Section about fraction."""
     def __init__(self):
         self.text = ('Мы считаем свободу распространения и получения '
@@ -154,14 +147,14 @@ class AboutFraction(Screen):
         self._create_reply_markup()
 
     def _create_reply_markup(self):
-        self.reply_markup = InlineKeyboardMarkup()
+        self.reply_markup = types.InlineKeyboardMarkup()
         self.reply_markup.add(
-            InlineKeyboardButton(
+            types.InlineKeyboardButton(
                 'Манифест и устав',
                 url=('https://civsoc.net/frakciya/'
                      'frakciya-zashchity-interneta/')
             )
         )
         self.reply_markup.row(
-            InlineKeyboardButton('<< Назад', callback_data='start')
+            types.InlineKeyboardButton('<< Назад', callback_data='start')
         )
