@@ -1,6 +1,14 @@
 from aiogram import types
 
+from ip_bot.screens import join
 from ip_bot.screens.base import BaseTextScreen
+from ip_bot.screens.remove_reply_keyboard import RemoveReplyKeyboard
+
+
+__all__ = ['BaseTextScreen', 'RemoveReplyKeyboard', 'Start',
+           'join', 'ContactSet',
+           'MessageForwarded', 'MessageFromUser', 'MessageFromChat',
+           'AboutCivsoc', 'AboutFraction']
 
 
 class Start(BaseTextScreen):
@@ -26,45 +34,6 @@ class Start(BaseTextScreen):
             types.InlineKeyboardButton('Связаться с редакцией',
                                        callback_data='redaction')
         )
-
-
-class Join(BaseTextScreen):
-    """
-    The first message when trying to join with an explanation of what
-    to do.
-    """
-    def __init__(self):
-        self.text = (
-                'Для вступления во фракцию напишите мне:\n\n'
-                '1) Свои ФИО\n'
-                '2) Дату рождения\n'
-                '3) Подтверждение согласия с <a href="https://telegra.ph/Ustav'
-                '-frakcii-zashchity-interneta-dvizheniya-Grazhdanskoe-'
-                'obshchestvo-03-30">уставом фракции</a>\n'
-                '4) Являетесь ли Вы членом движения "Гражданское Общество" на '
-                'данный момент\n'
-                '5) Расскажите о себе в 3-5 предложениях\n\n'
-                'Вступая к нам, вы также вступаете в движение. Если вы не '
-                'являетесь членом движения "Гражданское Общество", нам также '
-                'понадобятся:\n'
-                '1) Город\n'
-                '2) Электронная почта\n'
-                '3) Номер телефона\n'
-                '4) Подтвердите согласие с <a href="https://civsoc.net/ustav-'
-                'dvizheniya/">уставом движения</a>\n\n'
-                '<i>Не переживайте, мы гарантируем конфиденциальность Ваших '
-                'персональных данных.</i>')
-        self.disable_web_page_preview = True
-        self._create_reply_markup()
-
-    def _create_reply_markup(self):
-        self.reply_markup = types.InlineKeyboardMarkup()
-        self.reply_markup.add(
-            types.InlineKeyboardButton(
-                'Политика конфиденциальности',
-                url='https://civsoc.net/politika-konfidencialnosti/'
-            ),
-            types.InlineKeyboardButton('<< Назад', callback_data='start'))
 
 
 class ContactSet(BaseTextScreen):
