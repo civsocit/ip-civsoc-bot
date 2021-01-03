@@ -10,6 +10,7 @@ from ip_bot.handlers import register_handlers
 
 
 config = Config.from_env()
+logging.basicConfig(level=config.LOG_LEVEL)
 bot = Bot(config.TOKEN, parse_mode='html')
 bot.config = config
 if config.REDIS_HOST and config.REDIS_PORT:
@@ -19,19 +20,25 @@ if config.REDIS_HOST and config.REDIS_PORT:
                             password=config.REDIS_PASS)
 else:
     storage = MemoryStorage()
+
+
 dp = Dispatcher(bot, storage=storage)
-
-
-logging.basicConfig(level=config.LOG_LEVEL)
 
 
 async def on_startup(dp: Dispatcher):
     register_filters(dp)
     register_handlers(dp)
+    await dp.bot.set_webhook(url=dp.bot.config.WEBHOOK_URL)
+
+
+async def on_shutdown(dp: Dispatcher):
+    if isinstance(dp.storage, RedisStorage2):
+        await dp.storage.close()
 
 
 def main():
-    executor.start_polling(dp, on_startup=on_startup)
+    executor.start_webhook(dp, '/', on_startup=on_startup,
+                           on_shutdown=on_shutdown)
 
 
 if __name__ == '__main__':

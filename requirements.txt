@@ -1,1 +1,2 @@
 aiogram>=2.11.2,<3.0
+aioredis>=1.3.1
