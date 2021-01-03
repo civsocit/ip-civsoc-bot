@@ -40,23 +40,18 @@ class BaseTextScreen(BaseScreen):
         )
 
     @classmethod
-    async def reply_to(cls, bot: Bot, chat_id: int, message_id: int,
+    async def reply_to(cls,
+                       message: types.Message,
                        disable_notification: bool = False,
                        **kwargs):
         screen = cls(**kwargs)
-        return await bot.send_message(
-            chat_id,
-            disable_notification=disable_notification,
-            reply_to_message_id=message_id,
-            **dict(screen)
-        )
+        return await message.reply(disable_notification=disable_notification,
+                                   **dict(screen))
 
     @classmethod
-    async def edit(cls, bot: Bot, chat_id: int, message_id: int, **kwargs):
+    async def edit(cls, message: types.Message, **kwargs):
         screen = cls(**kwargs)
-        return await bot.edit_message_text(chat_id=chat_id,
-                                           message_id=message_id,
-                                           **dict(screen))
+        return await message.edit_text(**dict(screen))
 
     def as_dict(self) -> dict:
         return {'text': self.text,
