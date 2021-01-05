@@ -17,4 +17,5 @@ jobs:
 
 workflows:
   test-build-deploy:
-    - test
+    jobs:
+      - test
