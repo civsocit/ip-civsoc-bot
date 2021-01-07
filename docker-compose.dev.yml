@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    networks:
+      - default
+    volumes:
+      - redis:/data
+
+  ip-civsoc-bot:
+    image: dmitrydavis/ip-civsoc-bot:dev
+    restart: unless-stopped
+    depends_on:
+      - redis
+    environment:
+      TOKEN: ''
+      WEBHOOK_HOST: ''
+      WEBHOOK_PATH: '/dev'
+      DIRECTORS_CHAT: ''
+      REDACTION_CHAT: ''
+      REDIS_HOST: 'redis'
+      LOG_LEVEL: 'DEBUG'
+    networks:
+      - default
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ip-civsoc-bot.rule=Host(``) && Path(`/dev`)"
+      - "traefik.http.routers.ip-civsoc-bot.tls=true"
+      - "traefik.http.routers.ip-civsoc-bot.tls.certresolver=le"
+      - "traefik.http.routers.ip-civsoc-bot.entryPoints=websecure"
+      - "traefik.http.services.ip-civsoc-bot.loadbalancer.server.port=80"
+
+networks:
+  default:
+    driver: bridge
+  traefik:
+    external: true
+
+volumes:
+  redis:
+    driver: local
