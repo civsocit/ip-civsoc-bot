@@ -24,7 +24,9 @@ class Config:
     def from_env(cls):
         dictionary = {}
         for field in cls._fields:
-            dictionary[field.lower()] = os.environ.get(field)
+            field_result = os.environ.get(field)
+            if field_result:
+                dictionary[field.lower()] = field_result
         return cls(**dictionary)
 
     def __init__(self,
