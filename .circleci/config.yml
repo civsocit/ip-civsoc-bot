@@ -1,0 +1,69 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - checkout
+      - run:
+          name: Install tox
+          command: |
+            pip install tox
+      - run:
+          name: Run tox
+          command: |
+            tox
+
+  build-publish-dev:
+    environment:
+      IMAGE_NAME: dmitrydavis/ip-civsoc-bot:dev
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build image
+          command: docker build -t $IMAGE_NAME .
+      - run:
+          name: Publish image
+          command: |
+            echo "$DOCKER_PWD" | docker login -u "$DOCKER_LOGIN" --password-stdin
+            docker push $IMAGE_NAME
+
+  build-publish-prod:
+    environment:
+      IMAGE_NAME: dmitrydavis/ip-civsoc-bot:prod
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build image
+          command: docker build -t $IMAGE_NAME .
+      - run:
+          name: Publish image
+          command: |
+            echo "$DOCKER_PWD" | docker login -u "$DOCKER_LOGIN" --password-stdin
+            docker push $IMAGE_NAME
+
+workflows:
+  test-build-publish:
+    jobs:
+      - test
+      - build-publish-dev:
+          context: docker_hub
+          requires:
+            - test
+          filters:
+            branches:
+              only: dev
+      - build-publish-prod:
+          context: docker_hub
+          requires:
+            - test
+          filters:
+            branches:
+              only: master

@@ -28,7 +28,8 @@ dp = Dispatcher(bot, storage=storage)
 async def on_startup(dp: Dispatcher):
     register_filters(dp)
     register_handlers(dp)
-    await dp.bot.set_webhook(url=dp.bot.config.WEBHOOK_URL)
+    config = dp.bot.config
+    await dp.bot.set_webhook(url=config.WEBHOOK_HOST + config.WEBHOOK_PATH)
 
 
 async def on_shutdown(dp: Dispatcher):
@@ -37,8 +38,11 @@ async def on_shutdown(dp: Dispatcher):
 
 
 def main():
-    executor.start_webhook(dp, '/', on_startup=on_startup,
-                           on_shutdown=on_shutdown)
+    executor.start_webhook(dp, config.WEBHOOK_PATH,
+                           on_startup=on_startup,
+                           on_shutdown=on_shutdown,
+                           check_ip=True,
+                           port=config.PORT)
 
 
 if __name__ == '__main__':

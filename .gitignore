@@ -1,5 +1,5 @@
 .*
 !.gitingore
-!.github
+!.circleci
 __pycache__
 venv
