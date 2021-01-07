@@ -16,6 +16,7 @@ jobs:
             tox
 
   build-publish-dev:
+    context: docker_hub
     environment:
       IMAGE_NAME: dmitrydavis/ip-civsoc-bot:dev
     docker:
@@ -29,10 +30,11 @@ jobs:
       - run:
           name: Publish image
           command: |
-            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            echo "$DOCKER_PWD" | docker login -u "$DOCKER_LOGIN" --password-stdin
             docker push $IMAGE_NAME
 
   build-publish-prod:
+    context: docker_hub
     environment:
       IMAGE_NAME: dmitrydavis/ip-civsoc-bot:prod
     docker:
@@ -46,7 +48,7 @@ jobs:
       - run:
           name: Publish image
           command: |
-            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            echo "$DOCKER_PWD" | docker login -u "$DOCKER_LOGIN" --password-stdin
             docker push $IMAGE_NAME
 
 workflows:
