@@ -15,7 +15,53 @@ jobs:
           command: |
             tox
 
+  build-publish-dev:
+    environment:
+      IMAGE_NAME: dmitrydavis/ip-civsoc-bot:dev
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote-docker
+      - run:
+          name: Build image
+          command: docker build -t $IMAGE_NAME .
+      - run:
+          name: Publish image
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME
+
+  build-publish-prod:
+    environment:
+      IMAGE_NAME: dmitrydavis/ip-civsoc-bot:prod
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote-docker
+      - run:
+          name: Build image
+          command: docker build -t $IMAGE_NAME .
+      - run:
+          name: Publish image
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME
+
 workflows:
-  test-build-deploy:
+  test-build-publish:
     jobs:
       - test
+      - build-publish-dev:
+          requires:
+            - test
+          filters:
+            branches:
+              only: dev
+      - build-publish-prod:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
