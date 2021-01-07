@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Publish image
           command: |
-            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            echo "$DOCKER_PWD" | docker login -u "$DOCKER_LOGIN" --password-stdin
             docker push $IMAGE_NAME
 
   build-publish-prod:
@@ -46,7 +46,7 @@ jobs:
       - run:
           name: Publish image
           command: |
-            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            echo "$DOCKER_PWD" | docker login -u "$DOCKER_LOGIN" --password-stdin
             docker push $IMAGE_NAME
 
 workflows:
@@ -54,12 +54,14 @@ workflows:
     jobs:
       - test
       - build-publish-dev:
+          context: docker_hub
           requires:
             - test
           filters:
             branches:
               only: dev
       - build-publish-prod:
+          context: docker_hub
           requires:
             - test
           filters:
