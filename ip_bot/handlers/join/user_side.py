@@ -166,6 +166,7 @@ async def get_phone_no(message: types.Message, state: FSMContext):
         await screens.Final.send(bot, chat_id)
         await screens.ToDirectors.send(bot, bot.config.DIRECTORS_CHAT,
                                        user=message.from_user,
+                                       phone_no=phone_number,
                                        **data)
         await Start.send(bot, chat_id, name=message.from_user.first_name)
         return
