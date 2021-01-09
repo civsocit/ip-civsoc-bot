@@ -3,3 +3,4 @@
 !.circleci
 __pycache__
 venv
+ip_civsoc_bot.egg-info
